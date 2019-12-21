@@ -1,0 +1,56 @@
+stages:
+  - test
+  - build
+  - deploy
+
+builder arm:
+  stage: build
+  image: coderus/sailfishos-platform-sdk:3.1.0.12
+  script:
+    - cp -a . /home/nemo/podqast
+    - cd /home/nemo/podqast
+    - mb2 -t SailfishOS-3.1.0.12-armv7hl -X build
+  except:
+    - tags
+
+builder i486:
+  stage: build
+  image: coderus/sailfishos-platform-sdk:3.1.0.12
+  script:
+    - cp -a . /home/nemo/podqast
+    - cd /home/nemo/podqast
+    - mb2 -t SailfishOS-3.1.0.12-i486 -X build
+  except:
+    - tags
+
+deployer arm:
+  stage: deploy
+  image: coderus/sailfishos-platform-sdk:3.1.0.12
+  script:
+    - cp -a . /home/nemo/podqast
+    - pushd /home/nemo/podqast
+    - mb2 -t SailfishOS-3.1.0.12-armv7hl -X build
+    - popd
+    - cp -a /home/nemo/podqast/RPMS .
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+      - RPMS/*rpm
+  only:
+    - tags
+
+deployer i486:
+  stage: deploy
+  image: coderus/sailfishos-platform-sdk:3.1.0.12
+  script:
+    - cp -a . /home/nemo/podqast
+    - pushd /home/nemo/podqast
+    - mb2 -t SailfishOS-3.1.0.12-i486 -X build
+    - popd
+    - cp -a /home/nemo/podqast/RPMS .
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+      - RPMS/*rpm
+  only:
+    - tags
