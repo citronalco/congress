@@ -1,0 +1,51 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: nio arm
+    image: coderus/sailfishos-platform-sdk:3.1.0.12
+    volumes:
+      - name: cache
+        path: /dist
+    commands:
+      - cp -a /drone/src /home/nemo/congress
+      - cd /home/nemo/congress
+      - mb2 -t SailfishOS-3.1.0.12-armv7hl -X build
+      - sudo cp /home/nemo/congress/RPMS/*.rpm /dist
+
+  - name: list packages
+    image: alpine:edge
+    volumes:
+      - name: cache
+        path: /dist
+    commands:
+      - ls -l /dist
+
+  - name: package
+    image: alpine:edge
+    volumes:
+      - name: cache
+        path: /dist
+    commands:
+      - tar cvzf /dist/rpms-${DRONE_TAG}.tar.gz -C /dist /dist/*.rpm
+    when:
+      event: tag
+
+  - name: deploy
+    image: plugins/gitea-release
+    settings:
+      api_key:
+        from_secret: giteatoken
+      base_url: https://git.g3la.de
+      files: /dist/rpms-${DRONE_TAG}.tar.gz
+    volumes:
+      - name: cache
+        path: /dist
+    when:
+      event: tag
+
+volumes:
+- name: cache
+  temp: {}
