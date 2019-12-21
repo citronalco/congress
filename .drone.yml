@@ -15,6 +15,18 @@ steps:
       - mb2 -t SailfishOS-3.1.0.12-armv7hl -X build
       - sudo cp /home/nemo/congress/RPMS/*.rpm /dist
 
+  - name: nio i486
+    image: coderus/sailfishos-platform-sdk:3.1.0.12
+    volumes:
+      - name: cache
+        path: /dist
+    commands:
+      - cp -a /drone/src /home/nemo/congress
+      - cd /home/nemo/congress
+      - mb2 -t SailfishOS-3.1.0.12-i486 -X build
+      - sudo cp /home/nemo/congress/RPMS/*.rpm /dist
+
+
   - name: list packages
     image: alpine:edge
     volumes:
