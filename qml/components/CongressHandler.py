@@ -65,6 +65,12 @@ class Congress():
             param["eventid"] = param["id"]
             for element in event.getchildren():
                 param[element.tag] = element.text
+            p = ""
+            for person in event.findall('persons')[0]:
+                if p != "":
+                    p += ", "
+                p += person.text
+            param['persons'] = p
             params.append(param)
 
         params.sort(key=lambda r: r["date"], reverse=False)
@@ -77,8 +83,16 @@ class Congress():
             event_id(int): id of the event to be returned
         """
 
+        p = ""
         event = self._root.findall('day/room/event[@id="{0}"]'.format(event_id))[0]
-        return event.attrib
+        persons = event.findall('persons')[0]
+        for person in persons:
+            if p != "":
+                p += ", "
+            p += person.text
+        ret = event.attrib
+        ret['persons'] = p
+        return ret
 
 class CongressHandler:
     def __init__(self):

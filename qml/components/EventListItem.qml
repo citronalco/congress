@@ -72,8 +72,12 @@ ListItem {
 
             Row {
                 id: personsrow
+                width: parent.width
                 Label {
-                    text: ""
+                    text: persons
+                    font.bold: true
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: Theme.fontSizeExtraSmall
                 }
             }
 

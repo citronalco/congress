@@ -68,11 +68,15 @@ Page {
                 visible: eventdata.subtitle !== ""
             }
 
-//            Row {
-//                id: personsrow
-//                // anchors.top: subtitlerow.bottom
-//                width: parent.width
-//            }
+            Label {
+                width: parent.width
+                padding: Theme.paddingMedium
+                text: eventdata.persons
+                font.bold: true
+                font.pixelSize: Theme.fontSizeSmall
+                wrapMode: Text.WordWrap
+            }
+
             Label {
                 width: parent.width
                 padding: Theme.paddingMedium
