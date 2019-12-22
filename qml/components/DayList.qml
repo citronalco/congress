@@ -52,6 +52,10 @@ SilicaListView {
             text: qsTr("Lecturer")
             onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
         }
+        MenuItem {
+            text: qsTr("About")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/AboutPage.qml"))
+        }
     }
 
     model: ListModel {

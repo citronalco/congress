@@ -22,6 +22,7 @@ DISTFILES += qml/harbour-congress.qml \
     qml/components/EventListItem.qml \
     qml/components/SelectDockedPanel.qml \
     qml/cover/CoverPage.qml \
+    qml/pages/AboutPage.qml \
     qml/pages/DayPage.qml \
     qml/pages/EventPage.qml \
     qml/pages/SecondPage.qml \
@@ -43,3 +44,9 @@ CONFIG += sailfishapp_i18n
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/harbour-congress-de.ts
+
+images.path += /usr/share/harbour-congress/images
+images.files = images/*
+
+INSTALLS += images
+

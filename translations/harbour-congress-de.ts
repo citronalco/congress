@@ -2,6 +2,13 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>../data/about.txt</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>My Cover</source>
@@ -25,6 +32,10 @@
     <message>
         <source>Day </source>
         <translation>Tag </translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
