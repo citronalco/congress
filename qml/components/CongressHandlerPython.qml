@@ -9,12 +9,14 @@ Python {
     signal daysData(var data)
     signal dayData(var data)
     signal eventData(var data)
+    signal speakersData(var data)
 
     Component.onCompleted: {
         setHandler("conData", conData)
         setHandler("daysData", daysData)
         setHandler("dayData", dayData)
         setHandler("eventData", eventData)
+        setHandler("speakersData",speakersData)
 
         addImportPath(Qt.resolvedUrl('.'));
         importModule('CongressHandler', function () {
@@ -36,6 +38,11 @@ Python {
     function getDays() {
         console.log("getDays")
         call("CongressHandler.congresshandler.get_days", function() {})
+    }
+
+    function getSpeakers() {
+        console.log("getSpeakers")
+        call("CongressHandler.congresshandler.get_speakers", function() {})
     }
 
     function getEvent(id) {

@@ -21,11 +21,13 @@ DISTFILES += qml/harbour-congress.qml \
     qml/components/DayList.qml \
     qml/components/EventListItem.qml \
     qml/components/SelectDockedPanel.qml \
+    qml/components/SpeakerListItem.qml \
     qml/cover/CoverPage.qml \
     qml/pages/AboutPage.qml \
     qml/pages/DayPage.qml \
     qml/pages/EventPage.qml \
     qml/pages/SecondPage.qml \
+    qml/pages/SpeakersPage.qml \
     rpm/harbour-congress.changes.in \
     rpm/harbour-congress.changes.run.in \
     rpm/harbour-congress.spec \
