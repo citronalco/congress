@@ -1,17 +1,13 @@
 <p>
 <h3>Authors</h3>
   <a href="https://talk.maemo.org/member.php?u=33544">Cy8aer</a> (coding)<br>
-<h4>Translations</h4>
-</p>
-
-<p>
 <h3>Privacy</h3>
 <p>
 This application does not store any privacy information.
 </p>
 
 <p>
-<small>Version x.x</small>
+<small>Version 1.0</small>
 </p>
 
 <p>Copyright (c) 2019 Thomas Renard</p>

@@ -18,14 +18,6 @@
 <context>
     <name>DayList</name>
     <message>
-        <source>Favorites</source>
-        <translation type="unfinished">Favoriten</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation type="unfinished">Über</translation>
     </message>
@@ -64,17 +56,6 @@
     </message>
 </context>
 <context>
-    <name>SecondPage</name>
-    <message>
-        <source>Nested Page</source>
-        <translation>Unterseite</translation>
-    </message>
-    <message>
-        <source>Item</source>
-        <translation>Element</translation>
-    </message>
-</context>
-<context>
     <name>SpeakerPage</name>
     <message>
         <source>Events:
@@ -87,14 +68,6 @@
     <message>
         <source>Speakers</source>
         <translation>Sprecher</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation type="unfinished">Favoriten</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
     </message>
     <message>
         <source>About</source>
