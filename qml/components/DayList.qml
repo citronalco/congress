@@ -6,7 +6,7 @@ SilicaListView {
     id: eventlist
     property int daynumber
     width: parent.width
-    height: contentHeight
+    // height: contentHeight + Theme.itemSizeLarge
 
     onDaynumberChanged: {
         console.log("dayNumber changed")
@@ -33,10 +33,11 @@ SilicaListView {
         }
     }
 
-    header: PageHeader {
-        id: title
-        title: qsTr("Day ") + daynumber
-    }
+//    header: PageHeader {
+//        id: title
+//        // title: qsTr("Day ") + daynumber
+//        title: " "
+//    }
 
     // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
     PullDownMenu {

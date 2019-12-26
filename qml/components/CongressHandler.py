@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 
 import xml.etree.ElementTree as ET
@@ -7,13 +6,19 @@ import urllib.request
 from typing import Dict
 import pyotherside
 
-class Congress():
+
+class Congress:
     """
     The congress
     """
 
-    def __init__(self, sched_url: str, spk_url: str,
-                 sched_cfile: str = None, spk_cfile: str = None):
+    def __init__(
+        self,
+        sched_url: str,
+        spk_url: str,
+        sched_cfile: str = None,
+        spk_cfile: str = None,
+    ):
         """
         Initialization: parse the congress data from url
         Args:
@@ -27,18 +32,20 @@ class Congress():
             self._root = ET.fromstring(data)
 
         if sched_cfile:
-            with open(cfile, 'wb') as out_file:
+            with open(cfile, "wb") as out_file:
                 out_file.write(self._root)
 
         with urllib.request.urlopen(spk_url) as response:
             data = response.read()
             self._spk = json.loads(data.decode("utf-8"))
 
-        self._speakers = self._spk['schedule_speakers']['speakers']
-        self._speakers.sort(key=lambda r: r['public_name'].lstrip(), reverse=False)
+        self._speakers = self._spk["schedule_speakers"]["speakers"]
+        self._speakers.sort(
+            key=lambda r: r["public_name"].lstrip().lower(), reverse=False
+        )
 
         if spk_cfile:
-            with open(cfile, 'wb') as out_file:
+            with open(cfile, "wb") as out_file:
                 out_file.write(data)
 
     def con_data(self):
@@ -46,7 +53,7 @@ class Congress():
         Congress data
         """
 
-        conference = self._root.find('conference')
+        conference = self._root.find("conference")
         params = {}
         for element in conference.getchildren():
             params[element.tag] = element.text
@@ -60,7 +67,7 @@ class Congress():
 
         days = []
 
-        for day in self._root.iter('day'):
+        for day in self._root.iter("day"):
             days.append(day.attrib)
 
         return days
@@ -74,17 +81,17 @@ class Congress():
 
         params = []
         daydata = self._root.findall('day[@index="{0}"]'.format(day))[0]
-        for event in daydata.iterfind('room/event'):
+        for event in daydata.iterfind("room/event"):
             param = event.attrib
             param["eventid"] = param["id"]
             for element in event.getchildren():
                 param[element.tag] = element.text
             p = ""
-            for person in event.findall('persons')[0]:
+            for person in event.findall("persons")[0]:
                 if p != "":
                     p += ", "
                 p += person.text
-            param['persons'] = p
+            param["persons"] = p
             params.append(param)
 
         params.sort(key=lambda r: r["date"], reverse=False)
@@ -97,6 +104,35 @@ class Congress():
 
         return self._speakers
 
+    def get_speaker(self, speaker_id: str):
+        """
+        Get speaker information
+        Args:
+            speaker_id(str): Id of the speaker
+        """
+
+        speaker = [obj for obj in self._speakers if obj["id"] == speaker_id][0]
+
+        evs = speaker['events']
+        params = []
+
+        for ev in evs:
+            event = self._root.findall('day/room/event[@id="{0}"]'.format(ev['id']))[0]
+            param = event.attrib
+            param["eventid"] = param["id"]
+            for element in event.getchildren():
+                param[element.tag] = element.text
+            p = ""
+            for person in event.findall("persons")[0]:
+                if p != "":
+                    p += ", "
+                p += person.text
+            param["persons"] = p
+            params.append(param)
+        params.sort(key=lambda r: r["date"], reverse=False)
+        speaker["events"] = params
+        return speaker
+
     def get_event(self, event_id: int):
         """
         Return event data
@@ -106,20 +142,21 @@ class Congress():
 
         p = ""
         event = self._root.findall('day/room/event[@id="{0}"]'.format(event_id))[0]
-        persons = event.findall('persons')[0]
+        persons = event.findall("persons")[0]
         for person in persons:
             if p != "":
                 p += ", "
             p += person.text
         ret = event.attrib
-        ret['persons'] = p
+        ret["persons"] = p
         return ret
+
 
 class CongressHandler:
     def __init__(self):
         self.congress = Congress(
-            'https://fahrplan.events.ccc.de/congress/2019/Fahrplan/schedule.xml',
-            'https://fahrplan.events.ccc.de/congress/2019/Fahrplan/speakers.json'
+            "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/schedule.xml",
+            "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/speakers.json",
         )
 
     def get_days(self):
@@ -131,10 +168,14 @@ class CongressHandler:
     def get_speakers(self):
         pyotherside.send("speakersData", self.congress.get_speakers())
 
+    def get_speaker(self, speakerid):
+        pyotherside.send("speakerData", self.congress.get_speaker(int(speakerid)))
+
     def con_data(self):
         pyotherside.send("conData", self.congress.con_data())
 
     def get_event(self, event_id):
         pyotherside.send("eventData", self.congress.get_event(event_id))
+
 
 congresshandler = CongressHandler()

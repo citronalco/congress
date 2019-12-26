@@ -26,50 +26,66 @@ Page {
     DayList {
         id: daylist
         daynumber: daynum
-        height: parent.height
+        height: parent.height - daypanel.height
     }
 
-    IconButton {
-        anchors {
-            left: parent.left
-            bottom: parent.bottom
+    DockedPanel {
+        id: daypanel
+
+        width: parent.width
+        height: Theme.itemSizeSmall
+
+        dock: Dock.Bottom
+        open: true
+
+        Rectangle {
+            anchors.fill: parent
+            color: Theme.highlightDimmerColor
         }
-        z: 5
-        opacity: 0.9
-        icon.source: "image://theme/icon-m-left"
-        visible: daynum !== 1
-        onClicked: {
-            if (daynum != 1) {
-                daynum -= 1
+
+        IconButton {
+            anchors {
+                left: parent.left
+                //top: parent.top
+            }
+            z: 5
+            opacity: 1.0
+            icon.source: "image://theme/icon-m-left"
+            visible: daynum !== 1
+            onClicked: {
+                if (daynum != 1) {
+                    daynum -= 1
+                }
             }
         }
-    }
-    IconButton {
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-        }
-        z: 5
-        opacity: 0.9
-        icon.source: "image://theme/icon-m-right"
-        visible: daynum !== daymax
-        onClicked: {
-            if (daynum != daymax) {
-                daynum += 1
+        IconButton {
+            anchors {
+                right: parent.right
+                //top: parent.top
+            }
+            z: 5
+            opacity: 1.0
+            icon.source: "image://theme/icon-m-right"
+            visible: daynum !== daymax
+            onClicked: {
+                if (daynum != daymax) {
+                    daynum += 1
+                }
             }
         }
-    }
-    Button {
-        anchors {
-            bottom: parent.bottom
-            horizontalCenter: parent.horizontalCenter
+        Button {
+            anchors {
+                //top: parent.top
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+            }
+            opacity: 1.0
+            z: 5
+            text: {
+                var thedate = new Date(daysdata[daynum -1 ].date).toLocaleDateString()
+                return (qsTr("Day ") + daynum + ": " + thedate)
+            }
+            onClicked: daylist.scrollToTop()
         }
-        opacity: 1.0
-        z: 5
-        text: {
-            var thedate = new Date(daysdata[daynum -1 ].date).toLocaleDateString()
-            return (qsTr("Day ") + daynum + ": " + thedate)
-        }
-        onClicked: daylist.scrollToTop()
     }
 }

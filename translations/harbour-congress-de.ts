@@ -18,10 +18,6 @@
 <context>
     <name>DayList</name>
     <message>
-        <source>Day </source>
-        <translation type="unfinished">Tag </translation>
-    </message>
-    <message>
         <source>Favorites</source>
         <translation type="unfinished">Favoriten</translation>
     </message>
@@ -30,12 +26,12 @@
         <translation type="unfinished">Videos</translation>
     </message>
     <message>
-        <source>Speakers</source>
-        <translation>Sprecher</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation type="unfinished">Über</translation>
+    </message>
+    <message>
+        <source>Speakers</source>
+        <translation type="unfinished">Sprecher</translation>
     </message>
 </context>
 <context>
@@ -76,6 +72,14 @@
     <message>
         <source>Item</source>
         <translation>Element</translation>
+    </message>
+</context>
+<context>
+    <name>SpeakerPage</name>
+    <message>
+        <source>Events:
+</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

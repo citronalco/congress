@@ -21,6 +21,12 @@ ListItem {
             right: parent.right
             margins: Theme.paddingMedium
         }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("../pages/SpeakerPage.qml"), {speakerid: id})
+            }
+        }
 
         Column {
             id: speakerscol
