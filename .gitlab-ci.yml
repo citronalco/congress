@@ -3,6 +3,20 @@ stages:
   - build
   - deploy
 
+tester:
+  stage: test
+  image: alpine:3.10
+  script:
+  - apk update
+  - apk add make gcc g++ binutils
+  - apk add python3 python3-dev
+  - apk add qt5-qtdeclarative
+  - python3 -m venv venv
+  - . venv/bin/activate
+  - pip install -r test-requirements.txt
+  - make test
+  - make testqml
+
 builder arm:
   stage: build
   image: coderus/sailfishos-platform-sdk:3.1.0.12

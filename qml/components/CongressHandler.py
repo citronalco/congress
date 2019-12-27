@@ -3,8 +3,11 @@
 import xml.etree.ElementTree as ET
 import json
 import urllib.request
-from typing import Dict
 import pyotherside
+
+
+SCHED = "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/schedule.xml"
+SPKS = "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/speakers.json"
 
 
 class Congress:
@@ -32,7 +35,7 @@ class Congress:
             self._root = ET.fromstring(data)
 
         if sched_cfile:
-            with open(cfile, "wb") as out_file:
+            with open(sched_cfile, "wb") as out_file:
                 out_file.write(self._root)
 
         with urllib.request.urlopen(spk_url) as response:
@@ -45,7 +48,7 @@ class Congress:
         )
 
         if spk_cfile:
-            with open(cfile, "wb") as out_file:
+            with open(spk_cfile, "wb") as out_file:
                 out_file.write(data)
 
     def con_data(self):
@@ -113,11 +116,12 @@ class Congress:
 
         speaker = [obj for obj in self._speakers if obj["id"] == speaker_id][0]
 
-        evs = speaker['events']
+        evs = speaker["events"]
         params = []
 
         for ev in evs:
-            event = self._root.findall('day/room/event[@id="{0}"]'.format(ev['id']))[0]
+            event = self._root.findall(
+                'day/room/event[@id="{0}"]'.format(ev["id"]))[0]
             param = event.attrib
             param["eventid"] = param["id"]
             for element in event.getchildren():
@@ -141,7 +145,8 @@ class Congress:
         """
 
         p = ""
-        event = self._root.findall('day/room/event[@id="{0}"]'.format(event_id))[0]
+        event = self._root.findall(
+            'day/room/event[@id="{0}"]'.format(event_id))[0]
         persons = event.findall("persons")[0]
         for person in persons:
             if p != "":
@@ -155,8 +160,8 @@ class Congress:
 class CongressHandler:
     def __init__(self):
         self.congress = Congress(
-            "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/schedule.xml",
-            "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/speakers.json",
+            SCHED,
+            SPKS
         )
 
     def get_days(self):
@@ -169,7 +174,8 @@ class CongressHandler:
         pyotherside.send("speakersData", self.congress.get_speakers())
 
     def get_speaker(self, speakerid):
-        pyotherside.send("speakerData", self.congress.get_speaker(int(speakerid)))
+        pyotherside.send("speakerData",
+                         self.congress.get_speaker(int(speakerid)))
 
     def con_data(self):
         pyotherside.send("conData", self.congress.con_data())

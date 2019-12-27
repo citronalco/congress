@@ -1,2 +1,4 @@
 harbour-congress.pro.user*
 *.swp
+.coverage
+.mypy_cache
