@@ -11,6 +11,8 @@ Python {
     signal eventData(var data)
     signal speakersData(var data)
     signal speakerData(var data)
+    signal vidPercent(int percent)
+    signal vidPath(string path)
 
     Component.onCompleted: {
         setHandler("conData", conData)
@@ -19,6 +21,8 @@ Python {
         setHandler("eventData", eventData)
         setHandler("speakersData",speakersData)
         setHandler("speakerData", speakerData)
+        setHandler("vidPercent", vidPercent)
+        setHandler("vidPath", vidPath)
 
         addImportPath(Qt.resolvedUrl('.'));
         importModule('CongressHandler', function () {
@@ -55,6 +59,11 @@ Python {
     function getEvent(id) {
         console.log("getEvent: " + id)
         call("CongressHandler.congresshandler.get_event", [id], function() {})
+    }
+
+    function loadVid(id, url) {
+        console.log("load and get Video for event " + id)
+        call("CongressHandler.congresshandler.load_vid", [id, url, StandardPaths.videos])
     }
 
     onError: {

@@ -54,6 +54,10 @@
         <source>French</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Play video</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SpeakerPage</name>

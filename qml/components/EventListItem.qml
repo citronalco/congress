@@ -33,6 +33,7 @@ ListItem {
             height: trackrow.height + titlerow.height + subtitlerow.height + personsrow.height + durationrow.height + 2 * roomrow.height
             width: parent.width
 
+
             Row {
                 id: trackrow
                 width: parent.width
@@ -42,6 +43,12 @@ ListItem {
                     text: track
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: trackcols[track]
+                    Icon {
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        source: "image://theme/icon-lock-voicemail"
+                        visible: vidurl != ""
+                    }
                 }
             }
 

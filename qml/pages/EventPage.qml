@@ -112,6 +112,22 @@ Page {
             Label {
                 padding: Theme.paddingMedium
                 width: parent.width
+                visible: eventdata.vidurl !== ""
+                text: qsTr("Play video")
+                color: Theme.highlightColor
+                MouseArea {
+                    anchors.fill: parent
+//                    onClicked: pageStack.push(Qt.resolvedUrl("VideoPage.qml"), {
+//                                                  event_id: eventid,
+//                                                  vidurl: eventdata.vidurl
+//                                              })
+                    onClicked: Qt.openUrlExternally(eventdata.vidurl)
+                }
+            }
+
+            Label {
+                padding: Theme.paddingMedium
+                width: parent.width
                 text: '<style>a:link { color: ' + Theme.highlightColor + '; }</style>' + eventdata.abstract
                 textFormat: "RichText"
                 wrapMode: Text.WordWrap

@@ -4,10 +4,13 @@ import xml.etree.ElementTree as ET
 import json
 import urllib.request
 import pyotherside
+from pathlib import Path
+import threading
 
 
 SCHED = "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/schedule.xml"
 SPKS = "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/speakers.json"
+VIDS = "https://media.ccc.de/c/36c3/podcast/webm-hq.xml"
 
 
 class Congress:
@@ -19,8 +22,10 @@ class Congress:
         self,
         sched_url: str,
         spk_url: str,
+        vid_url: str,
         sched_cfile: str = None,
         spk_cfile: str = None,
+        vid_cfile: str = None,
     ):
         """
         Initialization: parse the congress data from url
@@ -50,6 +55,14 @@ class Congress:
         if spk_cfile:
             with open(spk_cfile, "wb") as out_file:
                 out_file.write(data)
+
+        with urllib.request.urlopen(vid_url) as response:
+            data = response.read()
+            self._vids = ET.fromstring(data)
+
+        if vid_cfile:
+            with open(vid_cfile, "wb") as out_file:
+                out_file.write(self._vids)
 
     def con_data(self):
         """
@@ -94,6 +107,8 @@ class Congress:
                 if p != "":
                     p += ", "
                 p += person.text
+                param["vidurl"] = self.get_vid(param["id"])
+
             param["persons"] = p
             params.append(param)
 
@@ -132,10 +147,81 @@ class Congress:
                     p += ", "
                 p += person.text
             param["persons"] = p
+            param["vidurl"] = self.get_vid(param["id"])
             params.append(param)
         params.sort(key=lambda r: r["date"], reverse=False)
         speaker["events"] = params
         return speaker
+
+    def get_vid(self, event_id: int):
+        """
+        Return the video url if exists for event_id
+        """
+
+        channel = self._vids.find("channel")
+        items = channel.findall("item")
+
+        videncs = [
+            obj
+            for obj in items
+            if "{0}".format(event_id)
+            in obj.findall(
+                "{http://www.itunes.com/dtds/podcast-1.0.dtd}keywords")[
+                0
+            ].text
+        ]
+        if len(videncs) > 0:
+            enc = videncs[0].find('enclosure')
+            url = enc.attrib["url"]
+        else:
+            url = ""
+        return url
+
+    def load_vid(self, event_id: int, url: int, vidpath: str):
+        """
+        Load video
+        Args:
+            event_id: id of the event
+            url: url of the video
+            vidpath: path of the video file to be stored
+        """
+
+        v = Path(vidpath)
+        vp = v / 'congress'
+        vp.mkdir(parents=True, exist_ok=True)
+
+        filepath = vp / Path(str(event_id) + '.webm')
+        filetmp = vp / Path(str(event_id) + '.webm.part')
+
+        if not filepath.is_file():
+            pyotherside.send("load_vid: Need to download " + url)
+            req = urllib.request.Request(url, data=None)
+            try:
+                h = urllib.request.urlopen(req)
+            except urllib.error.HTTPerror as e:
+                if hasattr(e, "reason"):
+                    pyotherside.send("apperror",
+                                     "Error opening URL: " + e.reason)
+                return
+            length = int(h.getheader("content-length"))
+
+            count = 0
+            p1 = 0
+            with open(filetmp, "wb") as fhandle:
+                while True:
+                    chunk = h.read(1024)
+                    if not chunk:
+                        break
+                    count += 1024
+                    fhandle.write(chunk)
+                    p2 = int(count / length * 100)
+                    if p2 > p1:
+                        p1 = p2
+                        pyotherside.send("vidPercent", p1)
+
+            filetmp.rename(filepath)
+
+        pyotherside.send("vidPath", filepath.as_posix())
 
     def get_event(self, event_id: int):
         """
@@ -154,15 +240,15 @@ class Congress:
             p += person.text
         ret = event.attrib
         ret["persons"] = p
+        ret["vidurl"] = self.get_vid(event_id)
         return ret
 
 
 class CongressHandler:
     def __init__(self):
-        self.congress = Congress(
-            SCHED,
-            SPKS
-        )
+        self.congress = Congress(SCHED, SPKS, VIDS)
+        self.bgthread = threading.Thread()
+        self.bgthread.start()
 
     def get_days(self):
         pyotherside.send("daysData", self.congress.get_days())
@@ -182,6 +268,9 @@ class CongressHandler:
 
     def get_event(self, event_id):
         pyotherside.send("eventData", self.congress.get_event(event_id))
+
+    def load_vid(self, event_id, url, vidpath):
+        self.congress.load_vid(event_id, url, vidpath)
 
 
 congresshandler = CongressHandler()

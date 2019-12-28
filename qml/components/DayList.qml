@@ -29,6 +29,7 @@ SilicaListView {
             eventsModel.clear()
             for(var i=0; i < data.length; i++) {
                 eventsModel.append(data[i])
+                console.log("vidurl: " + data[i].vidurl)
             }
         }
     }

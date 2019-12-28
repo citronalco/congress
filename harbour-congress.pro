@@ -28,6 +28,7 @@ DISTFILES += qml/harbour-congress.qml \
     qml/pages/EventPage.qml \
     qml/pages/SpeakerPage.qml \
     qml/pages/SpeakersPage.qml \
+    qml/pages/VideoPage.qml \
     rpm/harbour-congress.changes.in \
     rpm/harbour-congress.changes.run.in \
     rpm/harbour-congress.spec \
