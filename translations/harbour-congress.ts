@@ -82,4 +82,19 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>VidPathDialog</name>
+    <message>
+        <source>Set Videopath</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set video path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please note that a video may take GBs of space!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>
