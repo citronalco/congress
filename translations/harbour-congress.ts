@@ -9,6 +9,13 @@
     </message>
 </context>
 <context>
+    <name>CoverPage</name>
+    <message>
+        <source>days until #37c3</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DayList</name>
     <message>
         <source>About</source>

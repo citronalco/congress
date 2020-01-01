@@ -11,6 +11,29 @@ CoverBackground {
         opacity: 0.1
     }
 
+    Column {
+        anchors.centerIn: parent
+        Label {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: {
+                var oneDay = 24 * 60 * 60 * 1000
+                var dnow = Date.now()
+                var d37 = new Date('2020-12-27')
+                return Math.round(Math.abs((d37 - dnow) / oneDay))
+            }
+            font.pixelSize: Theme.fontSizeExtraLarge * 2
+            font.bold: true
+            color: Theme.highlightColor
+        }
+
+        Label {
+            text: qsTr("days until #37c3")
+            font.pixelSize: Theme.fontSizeMedium
+            color: Theme.highlightColor
+            font.bold: true
+        }
+    }
+
     CoverActionList {
         id: coverAction
 
