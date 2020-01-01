@@ -11,8 +11,10 @@ Python {
     signal eventData(var data)
     signal speakersData(var data)
     signal speakerData(var data)
-    signal vidPercent(int percent)
+    signal vidPercent(int evid, int percent)
     signal vidPath(string path)
+    signal noVidPath()
+    signal videoDeleted(int evid)
 
     Component.onCompleted: {
         setHandler("conData", conData)
@@ -23,8 +25,10 @@ Python {
         setHandler("speakerData", speakerData)
         setHandler("vidPercent", vidPercent)
         setHandler("vidPath", vidPath)
+        setHandler("noVidPath", noVidPath)
+        setHandler("videoDeleted", videoDeleted)
 
-        addImportPath(Qt.resolvedUrl('.'));
+        addImportPath(Qt.resolvedUrl('.'))
         importModule('CongressHandler', function () {
             console.log('CongressHandler is now imported')
         })
@@ -63,7 +67,27 @@ Python {
 
     function loadVid(id, url) {
         console.log("load and get Video for event " + id)
-        call("CongressHandler.congresshandler.load_vid", [id, url, StandardPaths.videos])
+        call("CongressHandler.congresshandler.load_vid", [id, url])
+    }
+
+    function setVidPath(vidpath) {
+        console.log("Set videopath to " + vidpath)
+        call("CongressHandler.congresshandler.set_vidpath", [vidpath])
+    }
+
+    function getVids() {
+        console.log("Get loaded videos")
+        call("CongressHandler.congresshandler.get_vids")
+    }
+
+    function playVideo(vidurl) {
+        console.log("Playing video")
+        call("CongressHandler.congresshandler.play_vid", [vidurl])
+    }
+
+    function deleteVideo(eventid) {
+        console.log("Deleting video")
+        call("CongressHandler.congresshandler.delete_video", [eventid])
     }
 
     onError: {

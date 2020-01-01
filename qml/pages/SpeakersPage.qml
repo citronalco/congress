@@ -45,6 +45,16 @@ Page {
                 onClicked: pageStack.push(Qt.resolvedUrl("../pages/AboutPage.qml"))
             }
             MenuItem {
+                text: qsTr("Preferences")
+                onClicked: pageStack.push(Qt.resolvedUrl("../pages/Preferences.qml"))
+            }
+
+            MenuItem {
+                text: qsTr("Videos")
+                onClicked: pageStack.replace(Qt.resolvedUrl("VideoPage.qml"))
+            }
+
+            MenuItem {
                 text: qsTr("Program")
                 onClicked: pageStack.replace(Qt.resolvedUrl("DayPage.qml"))
             }

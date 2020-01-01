@@ -1,58 +1,76 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtMultimedia 5.0
+import "../components"
 
 Page {
     id: page
-    property string vidurl
-    property string event_id
-    property int downperc: 0
-    property bool doplay: true
 
     Component.onCompleted: {
-        congresshandler.loadVid(event_id, vidurl)
+        congresshandler.getVids()
     }
 
-    Connections {
-        target: congresshandler
-        onVidPercent: {
-            console.log("vidPercent: " + percent)
-            progCircle.progressValue = percent
-        }
-        onVidPath: {
-            video.source = path
-        }
-    }
 
-    allowedOrientations: Orientation.Landscape
-    Video {
-        id: video
+    // The effective value will be restricted by ApplicationWindow.allowedOrientations
+    allowedOrientations: Orientation.All
+
+    SilicaListView {
+        id: eventlist
+        anchors.fill: parent
         width: parent.width
-        height: parent.height
-        source: ""
 
-        ProgressCircle {
-            id: progCircle
-            anchors.centerIn: parent
-            z: 5
-            borderWidth: 2
-            width: parent.width * 0.1
-            height: parent.width * 0.1
-            progressValue: 100
+        header: PageHeader {
+            id: title
+            title: qsTr("Downloaded Videos")
         }
 
-        Icon {
-            anchors.centerIn: parent
-            z: 5
-            source: "image://theme/icon-l-play"
-            visible: doplay && (downperc <= 1 && downperc >= 100)
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                doplay ? video.play() : video.pause()
-                doplay = !doplay
+        section {
+            property: 'track'
+            delegate: SectionHeader {
+                text: section
+                horizontalAlignment: Text.AlignRight
             }
         }
+
+        Connections {
+            target: congresshandler
+            onDayData: {
+                console.log("dayData")
+                eventsModel.clear()
+                for(var i=0; i < data.length; i++) {
+                    eventsModel.append(data[i])
+                    console.log("vidurl: " + data[i].vidurl)
+                }
+            }
+            onVideoDeleted: {
+                congresshandler.getVids()
+            }
+        }
+
+        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("About")
+                onClicked: pageStack.push(Qt.resolvedUrl("../pages/AboutPage.qml"))
+            }
+            MenuItem {
+                text: qsTr("Preferences")
+                onClicked: pageStack.push(Qt.resolvedUrl("../pages/Preferences.qml"))
+            }
+
+            MenuItem {
+                text: qsTr("Speakers")
+                onClicked: pageStack.replace(Qt.resolvedUrl("../pages/SpeakersPage.qml"))
+            }
+            MenuItem {
+                text: qsTr("Program")
+                onClicked: pageStack.replace(Qt.resolvedUrl("../pages/DayPage.qml"))
+            }
+        }
+
+        model: ListModel {
+            id: eventsModel
+        }
+
+        delegate: VideoListItem { }
     }
 }

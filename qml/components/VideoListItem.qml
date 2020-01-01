@@ -2,6 +2,7 @@ import QtQuick 2.5
 import Sailfish.Silica 1.0
 
 ListItem {
+    id: viditem
     width: parent.width
     //    height: theelement.height
     contentHeight: trackrow.height + titlerow.height + subtitlerow.height + personsrow.height + durationrow.height + 2 * roomrow.height
@@ -13,13 +14,20 @@ ListItem {
         pageStack.push(Qt.resolvedUrl("../pages/EventPage.qml"), { eventid: eventid })
     }
     menu: ContextMenu {
-        visible: vidurl !== ""
         MenuItem {
             text: qsTr("Play Video")
             visible: vidurl != ""
             onClicked: congresshandler.playVideo(vidurl)
         }
-   }
+
+        MenuItem {
+            text: qsTr("Delete Video")
+            onClicked: Remorse.itemAction(viditem, qsTr("Delete Video"), function () {
+                congresshandler.deleteVideo(eventid)
+            })
+            visible: vidurl[0] === "f"
+        }
+    }
 
     Item {
         id: theelement

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import Nemo.Configuration 1.0
 import "pages"
 import "components"
 
@@ -9,6 +10,12 @@ ApplicationWindow
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
     property var trackcols
+
+    ConfigurationValue {
+        id: videoPath
+        key: "/apps/ControlPanel/Congress/videoPath"
+        defaultValue: ""
+    }
 
     Component.onCompleted: {
         trackcols = {
@@ -20,6 +27,11 @@ ApplicationWindow
             "Ethics, Society & Politics": "cyan",
             "Science": "blue",
             "Resilience & Sustainability": "cyan"
+        }
+
+        // videoPath.value = ""
+        if (videoPath.value !== "") {
+            congresshandler.setVidPath(videoPath.value)
         }
     }
 

@@ -6,7 +6,7 @@ import urllib.request
 import pyotherside
 from pathlib import Path
 import threading
-
+import subprocess
 
 SCHED = "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/schedule.xml"
 SPKS = "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/speakers.json"
@@ -63,6 +63,15 @@ class Congress:
         if vid_cfile:
             with open(vid_cfile, "wb") as out_file:
                 out_file.write(self._vids)
+
+        self._vidpath = ""
+
+    def set_vid_path(self, vidpath):
+        """
+        Set the video path
+        """
+
+        self._vidpath = vidpath
 
     def con_data(self):
         """
@@ -173,11 +182,57 @@ class Congress:
         if len(videncs) > 0:
             enc = videncs[0].find('enclosure')
             url = enc.attrib["url"]
+            vp = Path(self._vidpath) / Path("{0}.webm".format(event_id))
+            if vp.exists():
+                url = "file://" + vp.as_posix()
+                pyotherside.send("video already downloaded. Path: " + url)
         else:
             url = ""
         return url
 
-    def load_vid(self, event_id: int, url: int, vidpath: str):
+    def delete_video(self, event_id: int):
+        """
+        Delete downloaded Video
+        Args:
+            event_id(int): the event_id of the video
+        """
+
+        vp = Path(self._vidpath) / Path("{0}.webm".format(event_id))
+        vp.unlink()
+        pyotherside.send("videoDeleted", event_id)
+
+    def get_downloaded_vids(self):
+        """
+        return an event list of all downloaded videos
+        """
+
+        if self._vidpath == "":
+            return []
+
+        vp = Path(self._vidpath)
+
+        events = []
+        for f in vp.iterdir():
+            if f.suffix == '.webm':
+                event = self._root.findall(
+                    'day/room/event[@id="{0}"]'.format(f.stem))[0]
+                param = event.attrib
+                param["eventid"] = param["id"]
+                for element in event.getchildren():
+                    param[element.tag] = element.text
+                p = ""
+                for person in event.findall("persons")[0]:
+                    if p != "":
+                        p += ", "
+                    p += person.text
+                    param["persons"] = p
+                param["vidurl"] = self.get_vid(param["id"])
+                events.append(param)
+
+        events.sort(key=lambda r: r["track"], reverse=False)
+        return events
+
+    def load_vid(self, event_id: int, url: int):
         """
         Load video
         Args:
@@ -186,8 +241,11 @@ class Congress:
             vidpath: path of the video file to be stored
         """
 
-        v = Path(vidpath)
-        vp = v / 'congress'
+        if self._vidpath == "":
+            pyotherside.send("noVidPath")
+            return
+
+        vp = Path(self._vidpath)
         vp.mkdir(parents=True, exist_ok=True)
 
         filepath = vp / Path(str(event_id) + '.webm')
@@ -217,11 +275,20 @@ class Congress:
                     p2 = int(count / length * 100)
                     if p2 > p1:
                         p1 = p2
-                        pyotherside.send("vidPercent", p1)
+                        pyotherside.send("vidPercent", event_id, p1)
 
             filetmp.rename(filepath)
 
-        pyotherside.send("vidPath", filepath.as_posix())
+        pyotherside.send("vidPath", "file://" + filepath.as_posix())
+
+    def play_vid(self, vidurl):
+        """
+        Start the sailfish-os browser for playing a video
+        Args:
+            vidurl(str): the url to be shown
+        """
+
+        subprocess.run(["/usr/bin/sailfish-browser", vidurl])
 
     def get_event(self, event_id: int):
         """
@@ -269,8 +336,24 @@ class CongressHandler:
     def get_event(self, event_id):
         pyotherside.send("eventData", self.congress.get_event(event_id))
 
-    def load_vid(self, event_id, url, vidpath):
-        self.congress.load_vid(event_id, url, vidpath)
+    def load_vid(self, event_id, url):
+        dlthread = threading.Thread(target=self.congress.load_vid,
+                                    args=[event_id, url])
+        dlthread.start()
+
+    def get_vids(self):
+        pyotherside.send("dayData", self.congress.get_downloaded_vids())
+
+    def set_vidpath(self, vidpath):
+        self.congress.set_vid_path(vidpath)
+
+    def play_vid(self, vidurl):
+        dlthread = threading.Thread(target=self.congress.play_vid,
+                                    args=[vidurl])
+        dlthread.start()
+
+    def delete_video(self, event_id):
+        self.congress.delete_video(event_id)
 
 
 congresshandler = CongressHandler()

@@ -9,21 +9,22 @@
     </message>
 </context>
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>My Cover</source>
-        <translation>Mein Cover</translation>
-    </message>
-</context>
-<context>
     <name>DayList</name>
     <message>
         <source>About</source>
-        <translation type="unfinished">Über</translation>
+        <translation>Über</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation type="unfinished">Sprecher</translation>
+        <translation>Sprecher</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videos</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -38,6 +39,10 @@
     <message>
         <source>Duration: </source>
         <translation>Länge: </translation>
+    </message>
+    <message>
+        <source>Play Video</source>
+        <translation>Video abspielen</translation>
     </message>
 </context>
 <context>
@@ -55,8 +60,35 @@
         <translation>Französisch</translation>
     </message>
     <message>
+        <source>Stream video</source>
+        <translation>Streame Video</translation>
+    </message>
+    <message>
+        <source> - </source>
+        <translation> - </translation>
+    </message>
+    <message>
+        <source>Download video</source>
+        <translation>Video runterladen</translation>
+    </message>
+    <message>
         <source>Play video</source>
-        <translation type="unfinished"></translation>
+        <translation>Video abspielen</translation>
+    </message>
+</context>
+<context>
+    <name>Preferences</name>
+    <message>
+        <source>Set video path</source>
+        <translation>Setze Videopfad</translation>
+    </message>
+    <message>
+        <source>Please note that a video may take GBs of space!</source>
+        <translation>Beachte, daß Videos GBs Speicher benötigen können!</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -64,7 +96,8 @@
     <message>
         <source>Events:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Vorträge:
+</translation>
     </message>
 </context>
 <context>
@@ -81,20 +114,66 @@
         <source>Program</source>
         <translation>Programm</translation>
     </message>
+    <message>
+        <source>Videos</source>
+        <translation>Videos</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Einstellungen</translation>
+    </message>
 </context>
 <context>
     <name>VidPathDialog</name>
     <message>
         <source>Set Videopath</source>
-        <translation type="unfinished"></translation>
+        <translation>Videopfad setzen</translation>
     </message>
     <message>
         <source>Set video path</source>
-        <translation type="unfinished"></translation>
+        <translation>Setze Videopfad</translation>
     </message>
     <message>
         <source>Please note that a video may take GBs of space!</source>
-        <translation type="unfinished"></translation>
+        <translation>Beachte, daß Videos GBs Speicher benötigen können!</translation>
+    </message>
+</context>
+<context>
+    <name>VideoListItem</name>
+    <message>
+        <source>Duration: </source>
+        <translation>Länge: </translation>
+    </message>
+    <message>
+        <source>Play Video</source>
+        <translation>Video abspielen</translation>
+    </message>
+    <message>
+        <source>Delete Video</source>
+        <translation>Video löschen</translation>
+    </message>
+</context>
+<context>
+    <name>VideoPage</name>
+    <message>
+        <source>About</source>
+        <translation>Über</translation>
+    </message>
+    <message>
+        <source>Speakers</source>
+        <translation>Sprecher</translation>
+    </message>
+    <message>
+        <source>Program</source>
+        <translation>Programm</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <source>Downloaded Videos</source>
+        <translation>Heruntergeladene Videos</translation>
     </message>
 </context>
 </TS>

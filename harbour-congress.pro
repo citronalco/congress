@@ -22,12 +22,15 @@ DISTFILES += qml/harbour-congress.qml \
     qml/components/EventListItem.qml \
     qml/components/SelectDockedPanel.qml \
     qml/components/SpeakerListItem.qml \
+    qml/components/VideoListItem.qml \
     qml/cover/CoverPage.qml \
     qml/pages/AboutPage.qml \
     qml/pages/DayPage.qml \
     qml/pages/EventPage.qml \
+    qml/pages/Preferences.qml \
     qml/pages/SpeakerPage.qml \
     qml/pages/SpeakersPage.qml \
+    qml/pages/VidPathDialog.qml \
     qml/pages/VideoPage.qml \
     rpm/harbour-congress.changes.in \
     rpm/harbour-congress.changes.run.in \

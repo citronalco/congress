@@ -9,13 +9,6 @@
     </message>
 </context>
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>My Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>DayList</name>
     <message>
         <source>About</source>
@@ -23,6 +16,14 @@
     </message>
     <message>
         <source>Speakers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -37,6 +38,10 @@
     <name>EventListItem</name>
     <message>
         <source>Duration: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play Video</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -55,7 +60,34 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Stream video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> - </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Play video</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Preferences</name>
+    <message>
+        <source>Set video path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please note that a video may take GBs of space!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -81,6 +113,14 @@
         <source>Program</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VidPathDialog</name>
@@ -94,6 +134,44 @@
     </message>
     <message>
         <source>Please note that a video may take GBs of space!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VideoListItem</name>
+    <message>
+        <source>Duration: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VideoPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speakers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloaded Videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

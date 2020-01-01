@@ -34,11 +34,6 @@ SilicaListView {
         }
     }
 
-//    header: PageHeader {
-//        id: title
-//        // title: qsTr("Day ") + daynumber
-//        title: " "
-//    }
 
     // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
     PullDownMenu {
@@ -46,13 +41,18 @@ SilicaListView {
 //            text: qsTr("Favorites")
 //            onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
 //        }
-//        MenuItem {
-//            text: qsTr("Videos")
-//            onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
-//        }
         MenuItem {
             text: qsTr("About")
             onClicked: pageStack.push(Qt.resolvedUrl("../pages/AboutPage.qml"))
+        }
+        MenuItem {
+            text: qsTr("Preferences")
+            onClicked: pageStack.push(Qt.resolvedUrl("../pages/Preferences.qml"))
+        }
+
+        MenuItem {
+            text: qsTr("Videos")
+            onClicked: pageStack.replace(Qt.resolvedUrl("../pages/VideoPage.qml"))
         }
         MenuItem {
             text: qsTr("Speakers")

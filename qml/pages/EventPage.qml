@@ -6,6 +6,9 @@ Page {
     id: page
     property int eventid
     property var eventdata
+    property var percentage
+    property var vurl: ""
+
     property string title
     Component.onCompleted: {
         congresshandler.getEvent(eventid)
@@ -17,6 +20,20 @@ Page {
         onEventData: {
             console.log("eventData")
             eventdata = data
+            vurl = eventdata.vidurl
+        }
+        onVidPercent: {
+            console.log("vidPercent: " + eventid + " " + percent)
+            if (evid == eventid) {
+                percentage = percent
+            }
+        }
+        onVidPath: {
+            vurl = path
+        }
+        onNoVidPath: {
+            dllabel.color = Theme.highlightColor
+            pageStack.push(Qt.resolvedUrl("../pages/VidPathDialog.qml"))
         }
     }
 
@@ -109,21 +126,51 @@ Page {
                 font.bold: false
                 font.pixelSize: Theme.fontSizeSmall
             }
-            Label {
-                padding: Theme.paddingMedium
+            Row {
                 width: parent.width
-                visible: eventdata.vidurl !== ""
-                text: qsTr("Play video")
-                color: Theme.highlightColor
-                MouseArea {
-                    anchors.fill: parent
-//                    onClicked: pageStack.push(Qt.resolvedUrl("VideoPage.qml"), {
-//                                                  event_id: eventid,
-//                                                  vidurl: eventdata.vidurl
-//                                              })
-                    onClicked: Qt.openUrlExternally(eventdata.vidurl)
+                Label {
+                    padding: Theme.paddingMedium
+                    visible: vurl !== ""
+                    text: vurl[0] === "h" ? qsTr("Stream video") : qsTr("Play video")
+                    color: Theme.highlightColor
+                    MouseArea {
+                        anchors.fill: parent
+                        // onClicked: Qt.openUrlExternally(vurl)
+                        onClicked: congresshandler.playVideo(vurl)
+                    }
+                }
+                Label {
+                    padding: Theme.paddingMedium
+                    visible: vurl !== "" && vurl[0] !== "f"
+                    text: qsTr(" - ")
+                }
+                Label {
+                    id: dllabel
+                    padding: Theme.paddingMedium
+                    visible: vurl !== "" && vurl[0] !== "f"
+                    text: qsTr("Download video")
+                    color: Theme.highlightColor
+                    Rectangle {
+                         id: dlstatus
+                         visible: percentage > 0 && percentage < 100
+                         anchors.left: parent.left
+                         height: parent.height
+                         width: percentage * parent.width / 100
+                         color: Theme.highlightBackgroundColor
+                         opacity: 0.7
+                         z: 0
+                     }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            dllabel.color = Theme.highlightBackgroundColor
+                            congresshandler.loadVid(eventid, vurl)
+                        }
+                    }
                 }
             }
+
 
             Label {
                 padding: Theme.paddingMedium
