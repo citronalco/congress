@@ -90,12 +90,12 @@
         <translation>Setze Videopfad</translation>
     </message>
     <message>
-        <source>Please note that a video may take GBs of space!</source>
-        <translation>Beachte, daß Videos GBs Speicher benötigen können!</translation>
-    </message>
-    <message>
         <source>Preferences</source>
         <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <source>Please note that a video may take GBs of space! Please prefer sdcard path.</source>
+        <translation>Beachte, daß Videos sehr viel Speicher benötigen! Bevorzuge einen Sdcard-Pfad.</translation>
     </message>
 </context>
 <context>
@@ -141,8 +141,8 @@
         <translation>Setze Videopfad</translation>
     </message>
     <message>
-        <source>Please note that a video may take GBs of space!</source>
-        <translation>Beachte, daß Videos GBs Speicher benötigen können!</translation>
+        <source>Please note that a video may take GBs of space! Please prefer sdcard path.</source>
+        <translation>Beachte, daß Videos sehr viel Speicher benötigen! Bevorzuge einen Sdcard-Pfad.</translation>
     </message>
 </context>
 <context>

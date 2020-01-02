@@ -90,11 +90,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please note that a video may take GBs of space!</source>
+        <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Preferences</source>
+        <source>Please note that a video may take GBs of space! Please prefer sdcard path.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -140,7 +140,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please note that a video may take GBs of space!</source>
+        <source>Please note that a video may take GBs of space! Please prefer sdcard path.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

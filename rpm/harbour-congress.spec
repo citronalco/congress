@@ -11,7 +11,7 @@ Name:       harbour-congress
 
 Summary:    Congress
 Version:    1.3
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        http://example.org/

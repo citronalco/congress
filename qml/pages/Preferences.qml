@@ -44,7 +44,7 @@ Dialog {
                     margins: Theme.paddingMedium
                 }
 
-                text: qsTr("Please note that a video may take GBs of space!")
+                text: qsTr("Please note that a video may take GBs of space! Please prefer sdcard path.")
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.highlightColor
                 width: parent.width
@@ -52,9 +52,9 @@ Dialog {
             }
             TextField {
                 id: vidPathConf
-                focus: true
+                focus: false
                 width: parent.width
-                placeholderText: "/home/nemo/Videos/congress"
+                placeholderText: StandardPaths.videos  + "/congress"
             }
         }
     }
