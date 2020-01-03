@@ -18,7 +18,7 @@ CoverBackground {
             text: {
                 var oneDay = 24 * 60 * 60 * 1000
                 var dnow = Date.now()
-                var d37 = new Date('2020-12-27')
+                var d37 = new Date('2020-12-27 00:00:00')
                 return Math.round(Math.abs((d37 - dnow) / oneDay))
             }
             font.pixelSize: Theme.fontSizeExtraLarge * 2
