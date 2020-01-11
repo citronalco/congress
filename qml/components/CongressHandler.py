@@ -47,25 +47,23 @@ class Congress:
                 data = schedhandler.read()
                 self._root = ET.fromstring(data)
         else:
-            data = None
             with urllib.request.urlopen(sched_url) as response:
                 data = response.read()
                 self._root = ET.fromstring(data)
 
-            with sched_cfile.open("wb") as out_file:
-                out_file.write(data)
+                with sched_cfile.open("wb") as out_file:
+                    out_file.write(data)
 
         if spk_cfile.exists():
             with spk_cfile.open('rb') as spkhandler:
                 data = spkhandler.read()
                 self._spk = json.loads(data.decode("utf-8"))
         else:
-            data = None
             with urllib.request.urlopen(spk_url) as response:
                 data = response.read()
                 self._spk = json.loads(data.decode("utf-8"))
-            with spk_cfile.open("wb") as out_file:
-                out_file.write(data)
+                with spk_cfile.open("wb") as out_file:
+                    out_file.write(data)
 
         self._speakers = self._spk["schedule_speakers"]["speakers"]
         self._speakers.sort(
@@ -77,12 +75,11 @@ class Congress:
                 data = vidhandler.read()
                 self._vids = ET.fromstring(data)
         else:
-            data = None
             with urllib.request.urlopen(vid_url) as response:
                 data = response.read()
                 self._vids = ET.fromstring(data)
-            with vid_cfile.open("wb") as out_file:
-                out_file.write(data)
+                with vid_cfile.open("wb") as out_file:
+                    out_file.write(data)
 
         self._vidpath = ""
 
