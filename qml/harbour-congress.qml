@@ -18,6 +18,7 @@ ApplicationWindow
     }
 
     Component.onCompleted: {
+        console.log(StandardPaths.cache)
         trackcols = {
             "CCC": "blue",
             "Entertainment": "blue",

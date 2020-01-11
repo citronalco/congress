@@ -23,6 +23,7 @@ class Congress:
         sched_url: str,
         spk_url: str,
         vid_url: str,
+        cache: str,
         sched_cfile: str = None,
         spk_cfile: str = None,
         vid_cfile: str = None,
@@ -35,34 +36,53 @@ class Congress:
             cfile(str): cache file
         """
 
-        with urllib.request.urlopen(sched_url) as response:
-            data = response.read()
-            self._root = ET.fromstring(data)
+        self._cache = Path(cache)
+        self._cache.mkdir(parents=True, exist_ok=True)
+        sched_cfile = cache / Path('sched.xml')
+        spk_cfile = cache / Path('spk.json')
+        vid_cfile = cache / Path('vid.xml')
 
-        if sched_cfile:
-            with open(sched_cfile, "wb") as out_file:
-                out_file.write(self._root)
+        if sched_cfile.exists():
+            with sched_cfile.open('rb') as schedhandler:
+                data = schedhandler.read()
+                self._root = ET.fromstring(data)
+        else:
+            data = None
+            with urllib.request.urlopen(sched_url) as response:
+                data = response.read()
+                self._root = ET.fromstring(data)
 
-        with urllib.request.urlopen(spk_url) as response:
-            data = response.read()
-            self._spk = json.loads(data.decode("utf-8"))
+            with sched_cfile.open("wb") as out_file:
+                out_file.write(data)
+
+        if spk_cfile.exists():
+            with spk_cfile.open('rb') as spkhandler:
+                data = spkhandler.read()
+                self._spk = json.loads(data.decode("utf-8"))
+        else:
+            data = None
+            with urllib.request.urlopen(spk_url) as response:
+                data = response.read()
+                self._spk = json.loads(data.decode("utf-8"))
+            with spk_cfile.open("wb") as out_file:
+                out_file.write(data)
 
         self._speakers = self._spk["schedule_speakers"]["speakers"]
         self._speakers.sort(
             key=lambda r: r["public_name"].lstrip().lower(), reverse=False
         )
 
-        if spk_cfile:
-            with open(spk_cfile, "wb") as out_file:
+        if vid_cfile.exists():
+            with vid_cfile.open('rb') as vidhandler:
+                data = vidhandler.read()
+                self._vids = ET.fromstring(data)
+        else:
+            data = None
+            with urllib.request.urlopen(vid_url) as response:
+                data = response.read()
+                self._vids = ET.fromstring(data)
+            with vid_cfile.open("wb") as out_file:
                 out_file.write(data)
-
-        with urllib.request.urlopen(vid_url) as response:
-            data = response.read()
-            self._vids = ET.fromstring(data)
-
-        if vid_cfile:
-            with open(vid_cfile, "wb") as out_file:
-                out_file.write(self._vids)
 
         self._vidpath = ""
 
@@ -313,9 +333,11 @@ class Congress:
 
 class CongressHandler:
     def __init__(self):
-        self.congress = Congress(SCHED, SPKS, VIDS)
         self.bgthread = threading.Thread()
         self.bgthread.start()
+
+    def init(self, cache):
+        self.congress = Congress(SCHED, SPKS, VIDS, cache)
 
     def get_days(self):
         pyotherside.send("daysData", self.congress.get_days())

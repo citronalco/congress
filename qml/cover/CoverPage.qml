@@ -3,11 +3,11 @@ import Sailfish.Silica 1.0
 
 CoverBackground {
     Timer {
-        interval: 1000 * 60 * 60 * 24
+        interval: 1000 * 60 * 15
         running:true
         repeat:true
         onTriggered: {
-            var oneDay = 60 * 60 * 1000
+            var oneDay = 24 * 60 * 60 * 1000
             var dnow = Date.now()
             var d37 = new Date('2020-12-27 00:00:00')
             dayscount.text = Math.round(Math.abs((d37 - dnow) / oneDay))

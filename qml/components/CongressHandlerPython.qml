@@ -32,7 +32,8 @@ Python {
         importModule('CongressHandler', function () {
             console.log('CongressHandler is now imported')
         })
-
+        StandardPaths.cache
+        call("CongressHandler.congresshandler.init", [StandardPaths.cache], function(){})
     }
 
     function getConData() {
