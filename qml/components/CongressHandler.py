@@ -136,8 +136,8 @@ class Congress:
                 if p != "":
                     p += ", "
                 p += person.text
-                param["vidurl"] = self.get_vid(param["id"])
 
+            param["vidurl"] = self.get_vid(param["id"])
             param["persons"] = p
             params.append(param)
 
