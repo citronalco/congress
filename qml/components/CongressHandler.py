@@ -11,6 +11,7 @@ import subprocess
 SCHED = "https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/schedule.xml"
 SPKS = "https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/speakers.json"
 VIDS = "https://media.ccc.de/c/36c3/podcast/webm-hq.xml"
+EVENT_ICAL_BASE = "https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/events/"
 
 
 class Congress:
@@ -23,6 +24,7 @@ class Congress:
         sched_url: str,
         spk_url: str,
         vid_url: str,
+        event_ical_base: str,
         cache: str,
         sched_cfile: str = None,
         spk_cfile: str = None,
@@ -41,6 +43,7 @@ class Congress:
         sched_cfile = cache / Path('sched.xml')
         spk_cfile = cache / Path('spk.json')
         vid_cfile = cache / Path('vid.xml')
+        self._event_ical_base = event_ical_base
 
         if sched_cfile.exists():
             with sched_cfile.open('rb') as schedhandler:
@@ -298,6 +301,41 @@ class Congress:
 
         pyotherside.send("vidPath", "file://" + filepath.as_posix())
 
+    def open_ical(self, event_id: int):
+        """
+        Load video
+        Args:
+            event_id: id of the event
+        """
+        filetmp = Path("/tmp/" + str(event_id) + ".ics")
+        url = self._event_ical_base + event_id + ".ics"
+
+        if not filetmp.is_file():
+            req = urllib.request.Request(url, data=None)
+            try:
+                h = urllib.request.urlopen(req)
+            except urllib.error.HTTPerror as e:
+                if hasattr(e, "reason"):
+                    pyotherside.send("apperror",
+                                     "Error opening URL: " + e.reason)
+                return
+            length = int(h.getheader("content-length"))
+
+            count = 0
+            p1 = 0
+            with open(filetmp, "wb") as fhandle:
+                while True:
+                    chunk = h.read(1024)
+                    if not chunk:
+                        break
+                    count += 1024
+                    fhandle.write(chunk)
+                    p2 = int(count / length * 100)
+                    if p2 > p1:
+                        p1 = p2
+
+        subprocess.run(["/usr/bin/xdg-open", filetmp])
+
     def play_vid(self, vidurl):
         """
         Start the sailfish-os browser for playing a video
@@ -334,7 +372,7 @@ class CongressHandler:
         self.bgthread.start()
 
     def init(self, cache):
-        self.congress = Congress(SCHED, SPKS, VIDS, cache)
+        self.congress = Congress(SCHED, SPKS, VIDS, EVENT_ICAL_BASE, cache)
 
     def get_days(self):
         pyotherside.send("daysData", self.congress.get_days())
@@ -374,5 +412,7 @@ class CongressHandler:
     def delete_video(self, event_id):
         self.congress.delete_video(event_id)
 
+    def open_ical(self, event_id):
+        self.congress.open_ical(event_id)
 
 congresshandler = CongressHandler()
