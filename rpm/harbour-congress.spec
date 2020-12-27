@@ -18,6 +18,7 @@ Source0:    %{name}-%{version}.tar.bz2
 Source100:  harbour-congress.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
 Requires:   pyotherside-qml-plugin-python3-qt5 >= 1.3.0
+Requires:   python3-pip
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
@@ -52,6 +53,8 @@ rm -rf %{buildroot}
 %qmake5_install
 
 # >> install post
+%post
+pip install icalendar
 # << install post
 
 desktop-file-install --delete-original       \
