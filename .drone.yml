@@ -65,6 +65,7 @@ steps:
         from_secret: giteatoken
       base_url: https://git.g3la.de
       files: /dist/rpms-${DRONE_TAG}.tar.gz
+      title: ${DRONE_TAG}
     volumes:
       - name: cache
         path: /dist
