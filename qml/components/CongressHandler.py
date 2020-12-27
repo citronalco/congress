@@ -415,4 +415,5 @@ class CongressHandler:
     def open_ical(self, event_id):
         self.congress.open_ical(event_id)
 
+
 congresshandler = CongressHandler()
