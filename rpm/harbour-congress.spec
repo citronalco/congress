@@ -9,8 +9,8 @@ Name:       harbour-congress
 # << macros
 
 Summary:    Congress
-Version:    1.5
-Release:    1
+Version:    1.6
+Release:    3
 Group:      Qt/Qt
 License:    LICENSE
 URL:        http://example.org/
