@@ -19,11 +19,11 @@
     <name>DayList</name>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>About</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Speakers</translation>
     </message>
     <message>
         <source>Videos</source>
