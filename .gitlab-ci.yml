@@ -10,7 +10,7 @@ tester:
   - apk update
   - apk add make gcc g++ binutils
   - apk add python3 python3-dev
-  - apk add qt5-qtdeclarative
+  - apk add qtchooser
   - python3 -m venv venv
   - . venv/bin/activate
   - pip install -r test-requirements.txt
