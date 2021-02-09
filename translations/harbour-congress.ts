@@ -51,6 +51,10 @@
         <source>Play Video</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add to calendar</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EventPage</name>

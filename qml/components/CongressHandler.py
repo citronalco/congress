@@ -7,9 +7,11 @@ import pyotherside
 from pathlib import Path
 import threading
 import subprocess
+import icalendar
+from datetime import datetime, timedelta
 
-SCHED = "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/schedule.xml"
-SPKS = "https://fahrplan.events.ccc.de/congress/2019/Fahrplan/speakers.json"
+SCHED = "https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/schedule.xml"
+SPKS = "https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/speakers.json"
 VIDS = "https://media.ccc.de/c/36c3/podcast/webm-hq.xml"
 
 
@@ -133,8 +135,8 @@ class Congress:
                 if p != "":
                     p += ", "
                 p += person.text
-                param["vidurl"] = self.get_vid(param["id"])
 
+            param["vidurl"] = self.get_vid(param["id"])
             param["persons"] = p
             params.append(param)
 
@@ -298,6 +300,50 @@ class Congress:
 
         pyotherside.send("vidPath", "file://" + filepath.as_posix())
 
+    def open_ical(self, event_id: int):
+        """
+        Load video
+        Args:
+            event_id: id of the event
+        """
+        filetmp = Path("/tmp/" + str(event_id) + ".ics")
+
+        if not filetmp.is_file():
+            fhandle = open(filetmp, "wb")
+            fhandle.write(self.gen_ics(event_id))
+            fhandle.close()
+
+        subprocess.run(["/usr/bin/xdg-open", filetmp])
+
+    def gen_ics(self, event_id: int):
+        """
+        Return event calendar data
+        Args:
+            event_id(int): id of the event to be returned
+        """
+
+        calendar = icalendar.Calendar()
+        calendar.add("proid", "-//Congress Sailfish app")
+        calendar.add("version", "2.0")
+
+        event = self.get_event(event_id)
+        event_start = datetime.fromisoformat(event["date"])
+        event_duration_parts = event["duration"].split(":")
+        event_duration = timedelta(
+            hours=int(event_duration_parts[0]),
+            minutes=int(event_duration_parts[1])
+        )
+        cal_event = icalendar.Event()
+        cal_event.add("summary", event["title"])
+        cal_event.add("description", event["abstract"])
+        cal_event.add("dtstart", event_start)
+        cal_event.add("dtend", event_start + event_duration)
+        cal_event.add("url", event["url"])
+        cal_event.add("location", event["room"])
+
+        calendar.add_component(cal_event)
+        return calendar.to_ical()
+
     def play_vid(self, vidurl):
         """
         Start the sailfish-os browser for playing a video
@@ -373,6 +419,9 @@ class CongressHandler:
 
     def delete_video(self, event_id):
         self.congress.delete_video(event_id)
+
+    def open_ical(self, event_id):
+        self.congress.open_ical(event_id)
 
 
 congresshandler = CongressHandler()

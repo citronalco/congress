@@ -13,11 +13,16 @@ ListItem {
         pageStack.push(Qt.resolvedUrl("../pages/EventPage.qml"), { eventid: eventid })
     }
     menu: ContextMenu {
-        visible: vidurl !== ""
+        visible: true
         MenuItem {
             text: qsTr("Play Video")
             visible: vidurl != ""
             onClicked: congresshandler.playVideo(vidurl)
+        }
+        MenuItem {
+            text: qsTr("Add to calendar")
+            visible: true
+            onClicked: congresshandler.openICal(eventid)
         }
    }
 

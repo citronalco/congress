@@ -27,6 +27,7 @@ Python {
         setHandler("vidPath", vidPath)
         setHandler("noVidPath", noVidPath)
         setHandler("videoDeleted", videoDeleted)
+        setHandler("openICal", openICal)
 
         addImportPath(Qt.resolvedUrl('.'))
         importModule('CongressHandler', function () {
@@ -89,6 +90,11 @@ Python {
     function deleteVideo(eventid) {
         console.log("Deleting video")
         call("CongressHandler.congresshandler.delete_video", [eventid])
+    }
+
+    function openICal(eventid) {
+        console.log("Opening ical file")
+        call("CongressHandler.congresshandler.open_ical", [eventid])
     }
 
     onError: {
