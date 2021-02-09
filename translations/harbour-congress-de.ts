@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="de">
 <context>
     <name>AboutPage</name>
     <message>
         <source>../data/about.txt</source>
-        <translation type="unfinished"></translation>
+        <translation>../data/about</translation>
     </message>
 </context>
 <context>
@@ -38,7 +38,7 @@
     <name>DayPage</name>
     <message>
         <source>Day </source>
-        <translation>Tag </translation>
+        <translation>Tag</translation>
     </message>
 </context>
 <context>
@@ -53,7 +53,7 @@
     </message>
     <message>
         <source>Add to calendar</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum Kalender hinzufügen</translation>
     </message>
 </context>
 <context>

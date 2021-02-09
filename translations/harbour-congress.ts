@@ -1,105 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="en">
 <context>
     <name>AboutPage</name>
     <message>
         <source>../data/about.txt</source>
-        <translation type="unfinished"></translation>
+        <translation>../data/about</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>days until #37c3</source>
-        <translation type="unfinished"></translation>
+        <translation>days until #37c3</translation>
     </message>
 </context>
 <context>
     <name>DayList</name>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>About</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Speakers</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferences</translation>
     </message>
 </context>
 <context>
     <name>DayPage</name>
     <message>
         <source>Day </source>
-        <translation type="unfinished"></translation>
+        <translation>Day</translation>
     </message>
 </context>
 <context>
     <name>EventListItem</name>
     <message>
         <source>Duration: </source>
-        <translation type="unfinished"></translation>
+        <translation>Duration: </translation>
     </message>
     <message>
         <source>Play Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Play Video</translation>
     </message>
     <message>
         <source>Add to calendar</source>
-        <translation type="unfinished"></translation>
+        <translation>Add to calendar</translation>
     </message>
 </context>
 <context>
     <name>EventPage</name>
     <message>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>English</translation>
     </message>
     <message>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>German</translation>
     </message>
     <message>
         <source>French</source>
-        <translation type="unfinished"></translation>
+        <translation>French</translation>
     </message>
     <message>
         <source>Stream video</source>
-        <translation type="unfinished"></translation>
+        <translation>Stream video</translation>
     </message>
     <message>
         <source> - </source>
-        <translation type="unfinished"></translation>
+        <translation>-</translation>
     </message>
     <message>
         <source>Download video</source>
-        <translation type="unfinished"></translation>
+        <translation>Download video</translation>
     </message>
     <message>
         <source>Play video</source>
-        <translation type="unfinished"></translation>
+        <translation>Play video</translation>
     </message>
 </context>
 <context>
     <name>Preferences</name>
     <message>
         <source>Set video path</source>
-        <translation type="unfinished"></translation>
+        <translation>Set video path</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferences</translation>
     </message>
     <message>
         <source>Please note that a video may take GBs of space! Please prefer sdcard path.</source>
-        <translation type="unfinished"></translation>
+        <translation>Please note that a video may take GBs of space! Please prefer sdcard path.</translation>
     </message>
 </context>
 <context>
@@ -107,83 +107,84 @@
     <message>
         <source>Events:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Events:
+</translation>
     </message>
 </context>
 <context>
     <name>SpeakersPage</name>
     <message>
         <source>Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Speakers</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>About</translation>
     </message>
     <message>
         <source>Program</source>
-        <translation type="unfinished"></translation>
+        <translation>Program</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferences</translation>
     </message>
 </context>
 <context>
     <name>VidPathDialog</name>
     <message>
         <source>Set Videopath</source>
-        <translation type="unfinished"></translation>
+        <translation>Set Videopath</translation>
     </message>
     <message>
         <source>Set video path</source>
-        <translation type="unfinished"></translation>
+        <translation>Set video path</translation>
     </message>
     <message>
         <source>Please note that a video may take GBs of space! Please prefer sdcard path.</source>
-        <translation type="unfinished"></translation>
+        <translation>Please note that a video may take GBs of space! Please prefer sdcard path.</translation>
     </message>
 </context>
 <context>
     <name>VideoListItem</name>
     <message>
         <source>Duration: </source>
-        <translation type="unfinished"></translation>
+        <translation>Duration: </translation>
     </message>
     <message>
         <source>Play Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Play Video</translation>
     </message>
     <message>
         <source>Delete Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Delete Video</translation>
     </message>
 </context>
 <context>
     <name>VideoPage</name>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>About</translation>
     </message>
     <message>
         <source>Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Speakers</translation>
     </message>
     <message>
         <source>Program</source>
-        <translation type="unfinished"></translation>
+        <translation>Program</translation>
     </message>
     <message>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferences</translation>
     </message>
     <message>
         <source>Downloaded Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Downloaded Videos</translation>
     </message>
 </context>
 </TS>
