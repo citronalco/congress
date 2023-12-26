@@ -9,7 +9,7 @@ on:
 
 
 env:
-  RELEASE: 4.1.0.24
+  SDK_RELEASE: 4.1.0.24
 
 jobs:
   build:
@@ -25,24 +25,62 @@ jobs:
       id: build_armv7hl
       uses: coderus/github-sfos-build@master
       with:
-        release: ${{ env.RELEASE }}
+        RELEASE: ${{ env.SDK_RELEASE }}
         arch: armv7hl
 
     - name: Build aarch64
       id: build_aarch64
       uses: coderus/github-sfos-build@master
       with:
-        release: ${{ env.RELEASE }}
+        RELEASE: ${{ env.SDK_RELEASE }}
         arch: aarch64
 
     - name: Build i486
       id: build_i486
       uses: coderus/github-sfos-build@master
       with:
-        release: ${{ env.RELEASE }}
+        RELEASE: ${{ env.SDK_RELEASE }}
         arch: i486
  
     - name: Upload build result
       uses: actions/upload-artifact@v3
       with:
         path: RPMS/*
+
+
+  release:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master'
+    env:
+      USERNAME: ${{ secrets.USERNAME }}
+      PASSWORD: ${{ secrets.PASSWORD }}
+    steps:
+    - name: git checkout
+      uses: actions/checkout@v3
+
+    - run: git fetch --prune --unshallow
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+
+    - name: Create prerelease
+      if: github.ref == 'refs/heads/main'
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: true
+        automatic_release_tag: "latest"
+        title: "${{ steps.version.outputs.version }}"
+        files: |
+           RPMS/*
+
+    - name: Create release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: "${{ contains(github.ref, '-rc') }}"
+        title: "${{ env.OPL_VERSION }}"
+        files: |
+          RPMS/*
