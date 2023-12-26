@@ -9,7 +9,7 @@ CoverBackground {
         onTriggered: {
             var oneDay = 24 * 60 * 60 * 1000
             var dnow = Date.now()
-            var d37 = new Date('2021-12-27 00:00:00')
+            var d37 = new Date('2024-12-27 00:00:00')
             dayscount.text = Math.round(Math.abs((d37 - dnow) / oneDay))
         }
     }
@@ -31,7 +31,7 @@ CoverBackground {
             text: {
                 var oneDay = 24 * 60 * 60 * 1000
                 var dnow = Date.now()
-                var d37 = new Date('2021-12-27 00:00:00')
+                var d37 = new Date('2024-12-27 00:00:00')
                 return Math.round(Math.abs((d37 - dnow) / oneDay))
             }
             font.pixelSize: Theme.fontSizeExtraLarge * 2
@@ -40,7 +40,7 @@ CoverBackground {
         }
 
         Label {
-            text: qsTr("days until #37c3")
+            text: qsTr("days until #38c3")
             font.pixelSize: Theme.fontSizeMedium
             color: Theme.highlightColor
             font.bold: true
