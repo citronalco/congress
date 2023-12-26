@@ -278,7 +278,7 @@ class Congress:
             req = urllib.request.Request(url, data=None)
             try:
                 h = urllib.request.urlopen(req)
-            except urllib.error.HTTPerror as e:
+            except urllib.error.HTTPError as e:
                 if hasattr(e, "reason"):
                     pyotherside.send("apperror",
                                      "Error opening URL: " + e.reason)
@@ -316,7 +316,7 @@ class Congress:
             req = urllib.request.Request(url, data=None)
             try:
                 h = urllib.request.urlopen(req)
-            except urllib.error.HTTPerror as e:
+            except urllib.error.HTTPError as e:
                 if hasattr(e, "reason"):
                     pyotherside.send("apperror",
                                      "Error opening URL: " + e.reason)
