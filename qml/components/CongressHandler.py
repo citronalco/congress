@@ -188,6 +188,8 @@ class Congress:
         """
 
         channel = self._vids.find("channel")
+        if channel is None:
+            return ""
         items = channel.findall("item")
 
         videncs = [
