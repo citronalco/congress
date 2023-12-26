@@ -45,7 +45,7 @@ ListItem {
                 height: contentHeight
                 Label {
                     width: parent.width
-                    text: full_public_name.replace(/^\s+|\s+$/g,'')
+                    text: public_name.replace(/^\s+|\s+$/g,'')
                     font.pixelSize: Theme.fontSizeMedium
                     font.bold: true
                 }

@@ -54,7 +54,7 @@ Page {
             Label {
                 id: bele
                 width: parent.width
-                text: speakerdata.full_public_name
+                text: speakerdata.public_name
                 font.bold: true
                 font.pixelSize: Theme.fontSizeMedium
                 padding: Theme.paddingMedium
