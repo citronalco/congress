@@ -10,9 +10,9 @@ import subprocess
 import icalendar
 from datetime import datetime, timedelta
 
-SCHED = "https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/schedule.xml"
-SPKS = "https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/speakers.json"
-VIDS = "https://media.ccc.de/c/36c3/podcast/webm-hq.xml"
+SCHED = "https://fahrplan.events.ccc.de/congress/2023/fahrplan/schedule.xml"
+SPKS = "https://fahrplan.events.ccc.de/congress/2023/fahrplan/speakers.json"
+VIDS = "https://media.ccc.de/c/37c3/podcast/webm-hq.xml"
 
 
 class Congress:
