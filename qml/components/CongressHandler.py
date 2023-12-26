@@ -7,12 +7,11 @@ import pyotherside
 from pathlib import Path
 import threading
 import subprocess
-import icalendar
-from datetime import datetime, timedelta
 
 SCHED = "https://fahrplan.events.ccc.de/congress/2023/fahrplan/schedule.xml"
 SPKS = "https://fahrplan.events.ccc.de/congress/2023/fahrplan/speakers.json"
 VIDS = "https://media.ccc.de/c/37c3/podcast/webm-hq.xml"
+EVENT_ICAL_BASE = "https://fahrplan.events.ccc.de/congress/2023/fahrplan/events/"
 
 
 class Congress:
@@ -25,6 +24,7 @@ class Congress:
         sched_url: str,
         spk_url: str,
         vid_url: str,
+        event_ical_base: str,
         cache: str,
         sched_cfile: str = None,
         spk_cfile: str = None,
@@ -43,6 +43,7 @@ class Congress:
         sched_cfile = cache / Path('sched.xml')
         spk_cfile = cache / Path('spk.json')
         vid_cfile = cache / Path('vid.xml')
+        self._event_ical_base = event_ical_base
 
         if sched_cfile.exists():
             with sched_cfile.open('rb') as schedhandler:
@@ -307,42 +308,33 @@ class Congress:
             event_id: id of the event
         """
         filetmp = Path("/tmp/" + str(event_id) + ".ics")
+        url = self._event_ical_base + event_id + ".ics"
 
         if not filetmp.is_file():
-            fhandle = open(filetmp, "wb")
-            fhandle.write(self.gen_ics(event_id))
-            fhandle.close()
+            req = urllib.request.Request(url, data=None)
+            try:
+                h = urllib.request.urlopen(req)
+            except urllib.error.HTTPerror as e:
+                if hasattr(e, "reason"):
+                    pyotherside.send("apperror",
+                                     "Error opening URL: " + e.reason)
+                return
+            length = int(h.getheader("content-length"))
+
+            count = 0
+            p1 = 0
+            with open(filetmp, "wb") as fhandle:
+                while True:
+                    chunk = h.read(1024)
+                    if not chunk:
+                        break
+                    count += 1024
+                    fhandle.write(chunk)
+                    p2 = int(count / length * 100)
+                    if p2 > p1:
+                        p1 = p2
 
         subprocess.run(["/usr/bin/xdg-open", filetmp])
-
-    def gen_ics(self, event_id: int):
-        """
-        Return event calendar data
-        Args:
-            event_id(int): id of the event to be returned
-        """
-
-        calendar = icalendar.Calendar()
-        calendar.add("proid", "-//Congress Sailfish app")
-        calendar.add("version", "2.0")
-
-        event = self.get_event(event_id)
-        event_start = datetime.fromisoformat(event["date"])
-        event_duration_parts = event["duration"].split(":")
-        event_duration = timedelta(
-            hours=int(event_duration_parts[0]),
-            minutes=int(event_duration_parts[1])
-        )
-        cal_event = icalendar.Event()
-        cal_event.add("summary", event["title"])
-        cal_event.add("description", event["abstract"])
-        cal_event.add("dtstart", event_start)
-        cal_event.add("dtend", event_start + event_duration)
-        cal_event.add("url", event["url"])
-        cal_event.add("location", event["room"])
-
-        calendar.add_component(cal_event)
-        return calendar.to_ical()
 
     def play_vid(self, vidurl):
         """
@@ -380,7 +372,7 @@ class CongressHandler:
         self.bgthread.start()
 
     def init(self, cache):
-        self.congress = Congress(SCHED, SPKS, VIDS, cache)
+        self.congress = Congress(SCHED, SPKS, VIDS, EVENT_ICAL_BASE, cache)
 
     def get_days(self):
         pyotherside.send("daysData", self.congress.get_days())
